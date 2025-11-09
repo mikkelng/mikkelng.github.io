@@ -96,7 +96,7 @@ body::after {
 	--container-py: clamp(64px, 10vh, 120px);
 	/* Anchor scroll offsets */
 	--scroll-offset-desktop: 80px;
-	--scroll-offset-mobile: 50px;
+	--scroll-offset-mobile: 60px;
 }
 
 a {
@@ -330,7 +330,7 @@ a:hover {
 	grid-template-columns: 180px 1fr;
 	gap: 24px;
 	/* Leave breathing room when navigated via hash links */
-	scroll-margin-top: var(--scroll-offset-desktop);
+	scroll-margin-top: var(--scroll-offset-mobile);
 }
 .section--stacked {
 	grid-template-columns: 1fr;
