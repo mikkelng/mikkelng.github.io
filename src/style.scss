@@ -83,20 +83,20 @@ body::after {
 }
 
 :root {
-  --bg: #04001e;
-  --panel: #0a0733;
-  --text: #e6ebff;
-  --muted: #9aa6e6;
-  --company: #b9c6ff; /* distinct muted tone for company names */
-  --accent: #033acd;
-  --link: #6ea8ff;
-  --ring: rgba(3, 58, 205, 0.35);
-  /* Responsive container paddings */
-  --container-px: clamp(24px, 6vw, 64px);
-  --container-py: clamp(64px, 10vh, 120px);
+	--bg: #04001e;
+	--panel: #0a0733;
+	--text: #e6ebff;
+	--muted: #9aa6e6;
+	--company: #b9c6ff; /* distinct muted tone for company names */
+	--accent: #033acd;
+	--link: #6ea8ff;
+	--ring: rgba(3, 58, 205, 0.35);
+	/* Responsive container paddings */
+	--container-px: clamp(24px, 6vw, 64px);
+	--container-py: clamp(64px, 10vh, 120px);
 	/* Anchor scroll offsets */
-  --scroll-offset-desktop: 70px;
-  --scroll-offset-mobile: 50px;
+	--scroll-offset-desktop: 70px;
+	--scroll-offset-mobile: 50px;
 }
 
 a {
@@ -125,21 +125,21 @@ a:hover {
 }
 
 @media (min-width: 980px) {
-  .sidebar {
-    position: sticky;
+	.sidebar {
+		position: sticky;
 		top: 20px;
 	}
-  .section {
-    /* Leave breathing room when navigated via hash links */
-    scroll-margin-top: var(--scroll-offset-desktop);
-  }
+	.section {
+		/* Leave breathing room when navigated via hash links */
+		scroll-margin-top: var(--scroll-offset-desktop);
+	}
 }
 
 @media (max-width: 980px) {
-  .layout {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
+	.layout {
+		grid-template-columns: 1fr;
+		gap: 32px;
+	}
 	/* Scroll-to-top button (mobile only) */
 	.scroll-top {
 		position: fixed;
@@ -177,44 +177,14 @@ a:hover {
 		pointer-events: auto;
 		transform: translateY(0);
 	}
-
-/* Dev LAN banner (only visible in dev) */
-.dev-lan-banner {
-  position: fixed;
-  left: 16px;
-  bottom: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(110,168,255,0.28);
-  background: rgba(3,58,205,0.12);
-  -webkit-backdrop-filter: blur(8px) saturate(130%);
-  backdrop-filter: blur(8px) saturate(130%);
-  color: #e6ebff;
-  font-size: 12px;
-  box-shadow: 0 6px 18px rgba(3,58,205,0.16), inset 0 0 0 1px rgba(110,168,255,0.18);
-  z-index: 30;
-}
-
-/* Ensure mobile anchor offset wins over the later global rule */
-@media (max-width: 980px) {
-  .section { scroll-margin-top: var(--scroll-offset-mobile); }
-}
-.dev-lan-title { opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; }
-.dev-lan-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; opacity: 0.95; }
-.dev-lan-copy { cursor: pointer; background: transparent; color: #e6ebff; border: 1px solid rgba(110,168,255,0.35); border-radius: 8px; padding: 2px 8px; }
-.dev-lan-copy:hover { background: rgba(3,58,205,0.2); }
-.dev-lan-note { opacity: 0.75; }
 }
 
 .sidebar {
-	top: 48px;
+	/* base: no offset; desktop sticky handled in media query */
 	align-self: start;
 }
 .intro {
-	margin-bottom: 20px;
+	margin-bottom: 12px;
 }
 .name {
 	font-weight: 700;
@@ -230,7 +200,7 @@ a:hover {
 	border: none;
 	padding: 0;
 	margin: 0;
-  text-align: left;
+	text-align: left;
 	font: inherit;
 	color: inherit;
 	cursor: pointer;
@@ -371,14 +341,14 @@ a:hover {
 	margin-bottom: 8px;
 }
 .section-header {
-		font-weight: 700;
-		color: #aab7ff;
-		font-size: 13px;
-		letter-spacing: 2px;
-		text-transform: uppercase;
-		padding-top: 6px;
-		position: relative;
-		display: inline-block;
+	font-weight: 700;
+	color: #aab7ff;
+	font-size: 13px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	padding-top: 6px;
+	position: relative;
+	display: inline-block;
 }
 .section-header::after {
 	content: '';
@@ -388,7 +358,7 @@ a:hover {
 	width: 40px;
 	height: 1px;
 	border-radius: 999px;
-  opacity: 0.5;
+	opacity: 0.5;
 	background: #aab7ff;
 }
 .section-header--link {
@@ -396,8 +366,14 @@ a:hover {
 	cursor: pointer;
 	color: #aab7ff;
 }
-.section-header--link:hover { text-decoration: none; }
-.section-header--link:focus-visible { outline: 2px solid rgba(110,168,255,0.6); outline-offset: 3px; border-radius: 4px; }
+.section-header--link:hover {
+	text-decoration: none;
+}
+.section-header--link:focus-visible {
+	outline: 2px solid rgba(110, 168, 255, 0.6);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
 .prose {
 	color: var(--text);
 	max-width: 70ch;
@@ -508,10 +484,10 @@ a:hover {
 	color: #d5defb;
 }
 .company {
-    color: var(--company);
-    display: inline-block;
-    transition: color 160ms ease;
-    font-weight: 400;
+	color: var(--company);
+	display: inline-block;
+	transition: color 160ms ease;
+	font-weight: 400;
 }
 .summary {
 	color: var(--muted);
