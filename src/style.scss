@@ -95,7 +95,7 @@ body::after {
 	--container-px: clamp(24px, 6vw, 64px);
 	--container-py: clamp(64px, 10vh, 120px);
 	/* Anchor scroll offsets */
-	--scroll-offset-desktop: 70px;
+	--scroll-offset-desktop: 80px;
 	--scroll-offset-mobile: 50px;
 }
 
@@ -127,7 +127,7 @@ a:hover {
 @media (min-width: 980px) {
 	.sidebar {
 		position: sticky;
-		top: 20px;
+		top: 60px;
 	}
 	.section {
 		/* Leave breathing room when navigated via hash links */
