@@ -1,4 +1,4 @@
-﻿/* Reset & base */
+/* Reset & base */
 *,
 *::before,
 *::after {
@@ -95,8 +95,8 @@ body::after {
   --container-px: clamp(24px, 6vw, 64px);
   --container-py: clamp(64px, 10vh, 120px);
 	/* Anchor scroll offsets */
-	--scroll-offset-desktop: 80px;
-	--scroll-offset-mobile: 72px;
+  --scroll-offset-desktop: 70px;
+  --scroll-offset-mobile: 50px;
 }
 
 a {
@@ -124,31 +124,32 @@ a:hover {
 	gap: 72px;
 }
 
-@media (max-width: 980px) {
-	.layout {
-		grid-template-columns: 1fr;
-		gap: 32px;
-	}
-}
-
 @media (min-width: 980px) {
-	.sidebar {
-		position: sticky;
+  .sidebar {
+    position: sticky;
 		top: 20px;
 	}
+  .section {
+    /* Leave breathing room when navigated via hash links */
+    scroll-margin-top: var(--scroll-offset-desktop);
+  }
 }
 
 @media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 	/* Scroll-to-top button (mobile only) */
 	.scroll-top {
 		position: fixed;
-		right: 16px;
-		bottom: 20px;
-		width: 44px;
-		height: 44px;
+		right: 24px;
+		bottom: 24px;
+		width: 50px;
+		height: 50px;
 		border-radius: 999px;
 		border: 1px solid rgba(110, 168, 255, 0.35);
-		background: rgba(3, 58, 205, 0.16); /* frosted glass, original blue tone */
+		background: rgba(3, 58, 205, 0.16);
 		-webkit-backdrop-filter: blur(10px) saturate(140%);
 		backdrop-filter: blur(10px) saturate(140%);
 		color: #e6ebff;
@@ -176,9 +177,6 @@ a:hover {
 		pointer-events: auto;
 		transform: translateY(0);
 	}
-	.section {
-		scroll-margin-top: var(--scroll-offset-mobile);
-	}
 
 /* Dev LAN banner (only visible in dev) */
 .dev-lan-banner {
@@ -198,6 +196,11 @@ a:hover {
   font-size: 12px;
   box-shadow: 0 6px 18px rgba(3,58,205,0.16), inset 0 0 0 1px rgba(110,168,255,0.18);
   z-index: 30;
+}
+
+/* Ensure mobile anchor offset wins over the later global rule */
+@media (max-width: 980px) {
+  .section { scroll-margin-top: var(--scroll-offset-mobile); }
 }
 .dev-lan-title { opacity: 0.8; letter-spacing: 1px; text-transform: uppercase; }
 .dev-lan-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; opacity: 0.95; }
@@ -255,11 +258,7 @@ a:hover {
 	margin: 12px 0;
 	border-radius: 999px;
 }
-.blurb {
-	color: var(--muted);
-	max-width: 36ch;
-	margin: 0;
-}
+/* .blurb no longer used */
 
 .local-nav {
 	display: flex;
@@ -337,10 +336,6 @@ a:hover {
 	outline: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Sidebar skills */
-.sidebar .skills {
-	margin-top: 28px;
-}
 /* Main content Skills section spacing */
 .section--stacked .skills {
 	margin-top: 16px;
@@ -537,23 +532,7 @@ a:hover {
 	border-radius: 999px;
 }
 
-/* Projects */
-.projects {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-}
-.project-title {
-	font-weight: 600;
-	color: var(--text);
-}
-.project-summary {
-	color: var(--muted);
-	margin: 6px 0 10px;
-}
+/* Removed old Projects styles (no longer rendered) */
 
 @media (max-width: 760px) {
 	.section {
