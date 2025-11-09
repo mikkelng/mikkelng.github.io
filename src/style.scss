@@ -129,9 +129,12 @@ a:hover {
 		position: sticky;
 		top: 60px;
 	}
+}
+
+@media (max-width: 760px) {
 	.section {
 		/* Leave breathing room when navigated via hash links */
-		scroll-margin-top: var(--scroll-offset-desktop);
+		scroll-margin-top: var(--scroll-offset-mobile);
 	}
 }
 
@@ -140,6 +143,7 @@ a:hover {
 		grid-template-columns: 1fr;
 		gap: 32px;
 	}
+
 	/* Scroll-to-top button (mobile only) */
 	.scroll-top {
 		position: fixed;
@@ -330,7 +334,7 @@ a:hover {
 	grid-template-columns: 180px 1fr;
 	gap: 24px;
 	/* Leave breathing room when navigated via hash links */
-	scroll-margin-top: var(--scroll-offset-mobile);
+	scroll-margin-top: var(--scroll-offset-desktop);
 }
 .section--stacked {
 	grid-template-columns: 1fr;
@@ -511,9 +515,7 @@ a:hover {
 /* Removed old Projects styles (no longer rendered) */
 
 @media (max-width: 760px) {
-	.section {
-		grid-template-columns: 1fr;
-	}
+	.section { grid-template-columns: 1fr; scroll-margin-top: var(--scroll-offset-mobile); }
 	.timeline-item {
 		grid-template-columns: 1fr;
 	}
