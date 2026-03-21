@@ -10,27 +10,57 @@ body,
 	min-height: 100%;
 }
 html {
-	scroll-behavior: smooth;
+	scrollbar-width: thin;
+	scrollbar-color: rgba(10, 15, 45, 0.85) transparent;
+}
+
+*,
+html {
+	scroll-behavior: smooth !important;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+	width: 10px;
+}
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background-color: rgba(10, 15, 45, 0.85);
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
 }
 body {
 	margin: 0;
 	color: #e6ebff;
-	/* Layered spotlights and orbs for subtle background depth */
-	background: radial-gradient(1200px 600px at 80% -10%, #0b2a7e 0%, #04001e 55%, #04001e 100%),
+	/* Layered spotlights and orbs */
+	background:
+		radial-gradient(1200px 600px at 80% -10%, #0b2a7e 0%, #04001e 55%, #04001e 100%),
 		radial-gradient(700px 420px at 12% 22%, rgba(110, 168, 255, 0.08), rgba(4, 0, 30, 0) 60%),
 		radial-gradient(820px 500px at 92% 60%, rgba(3, 58, 205, 0.07), rgba(4, 0, 30, 0) 70%),
 		radial-gradient(680px 420px at 50% 115%, rgba(40, 140, 255, 0.06), rgba(4, 0, 30, 0) 72%), #04001e;
 	background-repeat: no-repeat;
 	position: relative;
-	font-size: 17px; /* slight global bump */
-	font-family: 'Sen', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, 'Apple Color Emoji',
+	font-size: 17px;
+	font-family:
+		'Sen',
+		ui-sans-serif,
+		system-ui,
+		-apple-system,
+		Segoe UI,
+		Roboto,
+		Helvetica,
+		Arial,
+		'Apple Color Emoji',
 		'Segoe UI Emoji';
 	font-optical-sizing: auto;
 	line-height: 1.6;
-	cursor: default; /* default cursor site-wide */
+	cursor: default;
 }
 
-/* Decorative floating orbs */
+/* Decorative orbs */
 body::before,
 body::after {
 	content: '';
@@ -40,7 +70,8 @@ body::after {
 	border-radius: 50%;
 	pointer-events: none;
 	opacity: 0.12;
-	background: radial-gradient(60% 60% at 35% 30%, rgba(255, 255, 255, 0.12) 0 12%, rgba(255, 255, 255, 0) 16%),
+	background:
+		radial-gradient(60% 60% at 35% 30%, rgba(255, 255, 255, 0.12) 0 12%, rgba(255, 255, 255, 0) 16%),
 		radial-gradient(
 			70% 70% at 50% 55%,
 			rgba(40, 140, 255, 0.55) 0 58%,
@@ -71,7 +102,8 @@ body::after {
 	border-radius: 50%;
 	pointer-events: none;
 	opacity: 0.1;
-	background: radial-gradient(55% 55% at 40% 35%, rgba(255, 255, 255, 0.1) 0 12%, rgba(255, 255, 255, 0) 16%),
+	background:
+		radial-gradient(55% 55% at 40% 35%, rgba(255, 255, 255, 0.1) 0 12%, rgba(255, 255, 255, 0) 16%),
 		radial-gradient(
 			70% 70% at 55% 60%,
 			rgba(22, 96, 255, 0.5) 0 60%,
@@ -87,7 +119,7 @@ body::after {
 	--panel: #0a0733;
 	--text: #e6ebff;
 	--muted: #9aa6e6;
-	--company: #b9c6ff; /* distinct muted tone for company names */
+	--company: #b9c6ff;
 	--accent: #033acd;
 	--link: #6ea8ff;
 	--ring: rgba(3, 58, 205, 0.35);
@@ -95,7 +127,7 @@ body::after {
 	--container-px: clamp(24px, 6vw, 64px);
 	--container-py: clamp(64px, 10vh, 120px);
 	/* Anchor scroll offsets */
-	--scroll-offset-desktop: 80px;
+	--scroll-offset-desktop: 108px;
 	--scroll-offset-mobile: 60px;
 }
 
@@ -127,15 +159,33 @@ a:hover {
 @media (min-width: 980px) {
 	.sidebar {
 		position: sticky;
-		top: 60px;
+		top: var(--container-py);
+	}
+	.content {
+		margin-top: 15px;
 	}
 }
 
 @media (max-width: 760px) {
 	.section {
-		/* Leave breathing room when navigated via hash links */
 		scroll-margin-top: var(--scroll-offset-mobile);
 	}
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-self: start;
+}
+
+.sidebar-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	color: #b8c2ff;
+	font-size: 15px;
+	margin-top: 6px;
 }
 
 @media (max-width: 980px) {
@@ -160,11 +210,17 @@ a:hover {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 8px 22px rgba(3, 58, 205, 0.18), inset 0 0 0 1px rgba(110, 168, 255, 0.22);
+		box-shadow:
+			0 8px 22px rgba(3, 58, 205, 0.18),
+			inset 0 0 0 1px rgba(110, 168, 255, 0.22);
 		opacity: 0;
 		pointer-events: none;
 		transform: translateY(8px);
-		transition: opacity 200ms ease, transform 200ms ease, background-color 160ms ease, border-color 160ms ease;
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease,
+			background-color 160ms ease,
+			border-color 160ms ease;
 		cursor: pointer;
 		z-index: 40;
 	}
@@ -174,21 +230,53 @@ a:hover {
 	}
 	.scroll-top:focus-visible {
 		outline: none;
-		box-shadow: 0 0 0 2px rgba(110, 168, 255, 0.5), 0 8px 22px rgba(3, 58, 205, 0.18);
+		box-shadow:
+			0 0 0 2px rgba(110, 168, 255, 0.5),
+			0 8px 22px rgba(3, 58, 205, 0.18);
 	}
 	.scroll-top.show {
 		opacity: 1;
 		pointer-events: auto;
 		transform: translateY(0);
 	}
+	.sidebar {
+		height: auto;
+		justify-content: flex-start;
+		flex-direction: column;
+		gap: 24px;
+	}
+	.content {
+		margin-top: 50px;
+	}
 }
 
-.sidebar {
-	/* base: no offset; desktop sticky handled in media query */
-	align-self: start;
+.meta-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
-.intro {
-	margin-bottom: 12px;
+.meta-item--stacked {
+	flex-direction: column;
+	gap: 4px;
+}
+.meta-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #6ea8ff;
+}
+.meta-icon--text {
+	font-size: 15px;
+	font-weight: 600;
+}
+.meta-label {
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 1.4px;
+	color: #8290d8;
+}
+.meta-text {
+	color: #e4e8ff;
 }
 .name {
 	font-weight: 700;
@@ -198,7 +286,7 @@ a:hover {
 	color: var(--text);
 	margin: 0 0 12px 0;
 }
-.name-button {
+.name-link {
 	display: inline;
 	background: none;
 	border: none;
@@ -208,8 +296,12 @@ a:hover {
 	font: inherit;
 	color: inherit;
 	cursor: pointer;
+	text-decoration: none;
 }
-.name-button:focus-visible {
+.name-link:hover {
+	text-decoration: none;
+}
+.name-link:focus-visible {
 	outline: 2px solid rgba(110, 168, 255, 0.6);
 	outline-offset: 2px;
 	border-radius: 6px;
@@ -232,20 +324,28 @@ a:hover {
 	margin: 12px 0;
 	border-radius: 999px;
 }
-/* .blurb no longer used */
 
 .local-nav {
 	display: flex;
 	flex-direction: column;
 	gap: 8px;
-	margin: 28px 0 36px;
 	align-items: flex-start;
+	margin-bottom: auto;
+}
+
+@media (max-width: 980px) {
+	.local-nav {
+		padding-bottom: 24px;
+		margin-bottom: 0;
+	}
 }
 .nav-link {
 	position: relative;
 	color: #9aa7e0;
 	padding-left: 28px;
-	transition: color 160ms ease, padding-left 200ms ease;
+	transition:
+		color 160ms ease,
+		padding-left 200ms ease;
 	text-decoration: none;
 	cursor: pointer;
 	display: inline-block;
@@ -259,12 +359,15 @@ a:hover {
 	width: 22px;
 	height: 1px;
 	background: #1a2f7d;
-	transition: width 220ms ease, background-color 180ms ease, opacity 180ms ease;
+	transition:
+		width 220ms ease,
+		background-color 180ms ease,
+		opacity 180ms ease;
 }
 .nav-link:hover {
 	color: #e6ebff;
-	padding-left: 52px; /* ensure gap between line (40px) and label */
-	text-decoration: none; /* keep nav labels clean */
+	padding-left: 52px;
+	text-decoration: none;
 }
 .nav-link:hover::before {
 	width: 40px;
@@ -284,25 +387,29 @@ a:hover {
 }
 .nav-link:focus-visible {
 	color: #e6ebff;
-	padding-left: 52px; /* mirror hover slide for keyboard */
+	padding-left: 52px;
 	text-decoration: none;
 }
 .nav-link:focus-visible::before {
-	width: 40px; /* mirror hover underline length */
+	width: 40px;
 	background: #aab7ff;
 }
 
 .socials {
 	display: flex;
 	gap: 16px;
-	margin-bottom: 50px;
+	align-items: center;
+	margin: 0;
 }
 .social {
-	color: #93a0d8;
+	color: #6ea8ff;
 	display: inline-flex;
-	padding: 8px;
 	border-radius: 8px;
-	cursor: pointer; /* clickable */
+	cursor: pointer;
+}
+.social svg {
+	width: 24px;
+	height: 24px;
 }
 .social:hover {
 	color: #e6eef8;
@@ -315,25 +422,24 @@ a:hover {
 	margin-top: 16px;
 }
 .skills-group {
-	margin-bottom: 12px;
+	margin-bottom: 40px;
 }
 .skills .title {
 	color: #e6ebff;
 	display: block;
-	margin-bottom: 8px;
+	margin-bottom: 12px;
 }
 
 .content {
 	display: flex;
 	flex-direction: column;
-	gap: 80px;
+	gap: 100px;
 }
 
 .section {
 	display: grid;
 	grid-template-columns: 180px 1fr;
 	gap: 24px;
-	/* Leave breathing room when navigated via hash links */
 	scroll-margin-top: var(--scroll-offset-desktop);
 }
 .section--stacked {
@@ -386,7 +492,7 @@ a:hover {
 	margin: 0 0 16px;
 }
 
-/* Experience timeline */
+/* Experience section */
 .timeline {
 	list-style: none;
 	margin: 0;
@@ -404,15 +510,20 @@ a:hover {
 	border-radius: 14px;
 	border: 1px solid transparent;
 	overflow: hidden;
-	transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
-	cursor: default; /* not clickable; keep arrow cursor */
+	align-items: baseline;
+	transition:
+		background-color 220ms ease,
+		border-color 220ms ease,
+		box-shadow 220ms ease;
+	cursor: default;
 }
 .timeline-item::after {
 	content: '';
 	position: absolute;
 	inset: 0;
 	border-radius: inherit;
-	background: radial-gradient(220px 120px at 85% 0%, rgba(110, 168, 255, 0.16), rgba(3, 58, 205, 0) 60%),
+	background:
+		radial-gradient(220px 120px at 85% 0%, rgba(110, 168, 255, 0.16), rgba(3, 58, 205, 0) 60%),
 		radial-gradient(260px 160px at 20% 120%, rgba(3, 58, 205, 0.18), rgba(3, 58, 205, 0) 70%);
 	opacity: 0;
 	pointer-events: none;
@@ -422,14 +533,16 @@ a:hover {
 .timeline-item:focus-within {
 	background: rgba(3, 58, 205, 0.06);
 	border-color: rgba(110, 168, 255, 0.18);
-	box-shadow: 0 10px 28px rgba(3, 58, 205, 0.18), inset 0 0 0 1px rgba(110, 168, 255, 0.12);
+	box-shadow:
+		0 10px 28px rgba(3, 58, 205, 0.18),
+		inset 0 0 0 1px rgba(110, 168, 255, 0.12);
 }
 .timeline-item:hover::after,
 .timeline-item:focus-within::after {
 	opacity: 1;
 }
 
-/* Brighten text slightly on hover/focus within */
+/* Brighten text on hover/focus */
 .timeline-item:hover .title,
 .timeline-item:focus-within .title {
 	color: #fff;
@@ -438,12 +551,23 @@ a:hover {
 .timeline-item:focus-within .company {
 	color: #f6f9ff;
 }
+.timeline-item:hover .job-separator,
+.timeline-item:focus-within .job-separator {
+	color: #f6f9ff;
+}
+.timeline-item:hover .job-location,
+.timeline-item:focus-within .job-location {
+	color: #f6f9ff;
+}
+.timeline-item:hover .job-meta-icon,
+.timeline-item:focus-within .job-meta-icon {
+	color: #f6f9ff;
+}
 .timeline-item:hover .summary,
 .timeline-item:focus-within .summary {
 	color: #eaf0ff;
 }
 
-/* Also lift the date color slightly on hover for clarity */
 .timeline-item:hover .time,
 .timeline-item:focus-within .time {
 	color: #cbd5ff;
@@ -476,6 +600,32 @@ a:hover {
 	align-items: baseline;
 	flex-wrap: wrap;
 }
+.job-title {
+	display: block;
+	margin-bottom: 4px;
+}
+.job-meta {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	margin-bottom: 8px;
+	flex-wrap: wrap;
+}
+
+.meta-item {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.job-meta-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--company);
+	transition: color 160ms ease;
+	flex-shrink: 0;
+}
 .title {
 	font-weight: 600;
 	color: #eef2ff;
@@ -489,7 +639,18 @@ a:hover {
 }
 .company {
 	color: var(--company);
-	display: inline-block;
+	display: inline;
+	transition: color 160ms ease;
+	font-weight: 400;
+}
+.job-separator {
+	color: var(--company);
+	display: inline;
+	transition: color 160ms ease;
+}
+.job-location {
+	color: var(--company);
+	display: inline;
 	transition: color 160ms ease;
 	font-weight: 400;
 }
@@ -510,13 +671,52 @@ a:hover {
 	border: 1px solid rgba(3, 58, 205, 0.35);
 	padding: 4px 10px;
 	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
 }
 
-/* Removed old Projects styles (no longer rendered) */
+.tag-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+.tags-more {
+	font-size: 13px;
+	color: #8a94b8;
+	display: inline-flex;
+	align-items: center;
+}
 
 @media (max-width: 760px) {
-	.section { grid-template-columns: 1fr; scroll-margin-top: var(--scroll-offset-mobile); }
+	.section {
+		grid-template-columns: 1fr;
+		scroll-margin-top: var(--scroll-offset-mobile);
+	}
 	.timeline-item {
 		grid-template-columns: 1fr;
 	}
+}
+.contact {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin: 24px 0 50px;
+	align-items: flex-start;
+}
+.contact-email {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	color: #dbe2ff;
+	font-size: 16px;
+	text-decoration: none;
+}
+.contact-email:hover {
+	color: #fff;
+	text-decoration: none;
 }
