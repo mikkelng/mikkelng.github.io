@@ -30,7 +30,7 @@ import {
 	BasicMetalworkingIcon,
 	PanelsIcon
 } from './icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 type Data = typeof data;
 type NavItem = Data['nav'][number];
@@ -40,21 +40,7 @@ type EducationItem = Data['education'][number];
 type InternshipItem = Data['internships'][number];
 type SkillsGroup = Data['skills'][number];
 
-function formatTitle(text: string) {
-	const marker = '(unfinished)';
-	if (text.includes(marker)) {
-		const parts = text.split(marker);
-		return (
-			<>
-				{parts[0].trim()} <em className='title-note'>(unfinished)</em>
-				{parts[1] ?? ''}
-			</>
-		);
-	}
-	return text;
-}
-
-function Sidebar() {
+function Sidebar({ onResumeClick }: { onResumeClick: () => void }) {
 	const { name, role1, role2, location, languages, email, nav, socials } = data;
 	const [active, setActive] = useState<string>((nav?.[0]?.href || '#about').replace('#', ''));
 
@@ -138,6 +124,19 @@ function Sidebar() {
 								<s.Icon />
 							</a>
 						))}
+						<button
+							className='resume-social'
+							onClick={onResumeClick}
+							aria-label='View Resume'>
+							<svg
+								width='20'
+								height='20'
+								viewBox='0 0 24 24'
+								fill='#6ea8ff'>
+								<path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zM8 12h8v2H8v-2zm0 4h8v2H8v-2zm0-8h3v2H8V8z' />
+							</svg>
+							<span>My Resume</span>
+						</button>
 					</div>
 					<a
 						className='contact-email'
@@ -210,7 +209,6 @@ const skillIconMap: Record<string, React.ComponentType> = {
 	'React.js': ReactIcon,
 	'Node.js': NodeJsIcon,
 	Git: GitIcon,
-	GitHub: GitIcon,
 	MongoDB: MongoDBIcon,
 	PHP: PHPIcon,
 	'Express.js': ExpressIcon,
@@ -348,6 +346,65 @@ function Experience() {
 	);
 }
 
+type ProjectItem = {
+	name: string;
+	description: string;
+	url: string;
+	tags: readonly string[];
+};
+
+function Projects({ onProjectClick }: { onProjectClick: (url: string) => void }) {
+	const { projects } = data;
+	return (
+		<section
+			id='projects'
+			className='section section--stacked'>
+			<a
+				href='#projects'
+				className='section-header section-header--link'>
+				Projects
+			</a>
+			<div className='projects-list'>
+				{projects.map((project: ProjectItem) => (
+					<button
+						key={project.name}
+						className='project-item'
+						onClick={() => onProjectClick(project.url)}>
+						<div className='project-item-info'>
+							<h3 className='project-item-name'>{project.name}</h3>
+							<p className='project-item-desc'>{project.description}</p>
+							<div className='tags'>
+								{project.tags.map((tag: string) => {
+									const IconComponent = skillIconMap[tag];
+									return (
+										<span
+											key={tag}
+											className='tag'>
+											{IconComponent && (
+												<span className='tag-icon'>
+													<IconComponent />
+												</span>
+											)}
+											{tag}
+										</span>
+									);
+								})}
+							</div>
+						</div>
+						<span className='project-item-icon'>
+							<svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='1' strokeLinecap='round' strokeLinejoin='round'>
+								<path d='M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10' />
+								<path d='M6 8h.01' />
+								<path d='M9 8h.01' />
+							</svg>
+						</span>
+					</button>
+				))}
+			</div>
+		</section>
+	);
+}
+
 function Education() {
 	const { education } = data;
 	return (
@@ -367,7 +424,7 @@ function Education() {
 						<div className='time'>{item.period}</div>
 						<div className='job'>
 							<div className='job-title'>
-								<span className='title'>{formatTitle(item.title)}</span>
+								<span className='title'>{item.title}</span>
 							</div>
 							<div className='job-meta'>
 								<span className='meta-item'>
@@ -506,18 +563,120 @@ function ScrollTopButton() {
 }
 
 export default function App() {
+	const [showResume, setShowResume] = useState(false);
+	const [projectUrl, setProjectUrl] = useState<string | null>(null);
+	const scrollYRef = useRef(0);
+	const wasLockedRef = useRef(false);
+
+	useEffect(() => {
+		if (showResume || projectUrl) {
+			scrollYRef.current = window.scrollY;
+			document.body.style.position = 'fixed';
+			document.body.style.top = `-${scrollYRef.current}px`;
+			document.body.style.left = '0';
+			document.body.style.right = '0';
+			document.body.style.overflow = 'hidden';
+			wasLockedRef.current = true;
+		} else if (wasLockedRef.current) {
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.left = '';
+			document.body.style.right = '';
+			document.body.style.overflow = '';
+			window.scrollTo({ top: scrollYRef.current, behavior: 'instant' });
+			wasLockedRef.current = false;
+		}
+	}, [showResume, projectUrl]);
+
 	return (
 		<div className='container'>
 			<div className='layout'>
-				<Sidebar />
+				<Sidebar onResumeClick={() => {
+					if (window.innerWidth <= 600) {
+						window.open('/MN_CV.pdf', '_blank');
+					} else {
+						setShowResume(true);
+					}
+				}} />
 				<main className='content'>
 					<About />
 					<Experience />
+					<Projects onProjectClick={(url) => setProjectUrl(url)} />
 					<Education />
 					<Internship />
 				</main>
 			</div>
 			<ScrollTopButton />
+
+			{showResume && (
+				<div
+					className='modal-overlay'
+					onClick={() => setShowResume(false)}>
+					<div
+						className='modal-content'
+						onClick={(e) => e.stopPropagation()}>
+						<div className='modal-header'>
+							<span className='modal-title'>Resume</span>
+							<button
+								className='modal-close'
+								onClick={() => setShowResume(false)}
+								aria-label='Close'>
+								<svg
+									width='18'
+									height='18'
+									viewBox='0 0 24 24'
+									fill='currentColor'>
+									<path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' />
+								</svg>
+							</button>
+						</div>
+						<iframe
+							src='/MN_CV.pdf#view=FitH'
+							title='Resume'
+							className='resume-iframe'
+						/>
+					</div>
+				</div>
+			)}
+
+			{projectUrl && (
+				<div
+					className='modal-overlay'
+					onClick={() => setProjectUrl(null)}>
+					<div
+						className='modal-content'
+						onClick={(e) => e.stopPropagation()}>
+						<div className='modal-header'>
+							<a
+								href={projectUrl}
+								target='_blank'
+								rel='noreferrer noopener'
+								className='modal-external-link'>
+								<svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+									<path d='M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6' />
+									<path d='M11 13l9 -9' />
+									<path d='M15 4h5v5' />
+								</svg>
+								Open in new tab
+							</a>
+							<button
+								className='modal-close'
+								onClick={() => setProjectUrl(null)}
+								aria-label='Close'>
+								<svg width='18' height='18' viewBox='0 0 24 24' fill='currentColor'>
+									<path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' />
+								</svg>
+							</button>
+						</div>
+						<iframe
+							src={projectUrl}
+							title='Project Preview'
+							className='project-iframe'
+							sandbox='allow-scripts allow-same-origin'
+						/>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
